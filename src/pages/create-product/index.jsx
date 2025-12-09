@@ -1,4 +1,4 @@
-import {use}
+import { useForm } from 'react-hook-form';
 
 
 
@@ -6,5 +6,7 @@ import {use}
 
 
 export default function CreateProduct(){
-    const form = useForm({})
+    const form = useForm({
+        
+    })
 }

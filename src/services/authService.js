@@ -1,4 +1,4 @@
-import instance from "@/li/axios";
+import instance from "@/lib/axios";
 
 const authService = {
     login: async (email, password) => {

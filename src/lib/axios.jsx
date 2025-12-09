@@ -24,23 +24,24 @@ instance.interceptors.response.use(
         return response.data;
     },
     async (error) => {
-        const originalRequest = error.config;
+        const originalRequest = error.config || {};
 
         if (error.response && error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
-                const refresh_token = localStorage.getItem('refresh_token');
-                if (!refresh_token) {
+                const storedRefresh = localStorage.getItem('refresh_token');
+                if (!storedRefresh) {
                     throw new Error('No refresh token available');
                 }
-                const response = await axios.post(`${BASE_URL}/auth/refresh-token`, {
-                    refresh_token: refresh_token,
+                const resp = await axios.post(`${BASE_URL}/auth/refresh-token`, {
+                    refresh_token: storedRefresh,
                 });
-                const { access_token, refresh_token } = response.data;
+                const { access_token, refresh_token: newRefreshToken } = resp.data;
                 localStorage.setItem('access_token', access_token);
-                localStorage.setItem('refresh_token', refresh_token);
+                localStorage.setItem('refresh_token', newRefreshToken);
 
+                originalRequest.headers = originalRequest.headers || {};
                 originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
                 return instance(originalRequest);
             } catch (refreshError) {
