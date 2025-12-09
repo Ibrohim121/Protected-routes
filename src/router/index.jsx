@@ -1,5 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
-import Home from "@/pages/Home/index.jsx";
+import Home from "@/pages/home/index.jsx";
 import CreateProduct from "@/pages/create-product";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import AuthLayout from "@/layouts/auth-layout";
